@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Maze Quest</title>
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Firebase References -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    
+    <!-- jQyuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <!-- Bootrstrp -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="assets/javascript/maze.js"></script>
+    
+    <!-- AOS Animatea on scroll library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+</head>
+
+<body>
+
+
+    <!--Navigation-->
+    <div class="container" id="navigationContainer">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link-active" href="#">Play!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link-active" href="game-description.html">About the Game</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link-active" href="aboutme.html">About the Creators</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="container" id="headerContainer">
+        <h1>Maze-Quest</h1>
+    </div>
+
+    <!--Game Container-->
+    
+    
+    <div class="container">
+        <div id=playerContainer style = "display: block;">
+            <!--  Player Enters Name -->
+            <div id="playerEnter">
+                <input id="usernameEnter" placeholder="Player Username"/>
+                <button id=plyerNameEnter>Enter</button>
+                <button id="getIGImage">Get IG Image</button>
+                <button id="randomHero">Get Hero Name & Image</button>
+                <div id="image-display"></div>
+            </div>
+        </div>
+        <div id="gameContainer" style = "display: none;">
+            <!-- <p>Get to the Tuna!</p> -->
+            <!-- Content here -->
+            <div class="row justify-content-center">
+
+                <!--Player 1 information-->
+                <div class="col-sm-4">
+                    <h3 id="player1-name">Player 1</h3>
+                    <img id="player1-image"> 
+                    <h4 id="player1-moves">Moves: 0</h4>
+
+                </div>
+                <!--Player 2 information-->
+                <div class="col-sm-4">
+                    <h3 id="player2-name">Player 2</h3>
+                    <img id="player2-image"> 
+                    <h4 id="player2-moves">Moves: 0</h4>
+                </div>
+
+                <div class="col-sm-12">
+                    <div>
+                        <canvas id="canvas" width="795" height="705"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+    
+    <!-- Footer
+    <div class="container" id="footerContainer">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>RU Bootcamp Project</p>
+            </div>
+        </div> 
+    </div> -->
+
+</body>
+</html>
