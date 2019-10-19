@@ -27,6 +27,7 @@ $(document).ready(function(){
         y:      null,
         loc:    null,
         moves:  null,
+        status: false
     };
     var playersRef = database.ref("/players");
     var playerNum = null;
@@ -159,7 +160,8 @@ $(document).ready(function(){
         x   :0,
         y   :22,
         loc :1166,
-        moves:0
+        moves:0,
+        status: false
     });
     
     //Set up start location of player 1
@@ -167,7 +169,8 @@ $(document).ready(function(){
         x   :0,
         y   :24,
         loc :1272,
-        moves:0
+        moves:0,
+        status: false
     });
 
     //Save maze states in each cell
@@ -442,35 +445,53 @@ $(document).ready(function(){
             console.log(playerOneExists);
             console.log(playerTwoExists);
 
-            for(var i=0; i < ((53 * 47) + 1) ; i++){
+            $("#instruction").attr("style","display: block;");
 
-                if (maze[i].state == 0 || maze[i].state == "0") {
-                    ctx.drawImage(wall, maze[i].x * 15, maze[i].y * 15, 15, 15);
-                }
+            $("#ready").on("click", function(){
+
+                player.status = true;
                 
-                if (maze[i].state == 2 || maze[i].state == "2") {
-                    ctx.drawImage(treasure, maze[i].x * 15, maze[i].y * 15, 15, 15);
+                playersRef.child(playerNum).update({
+                    status: player.status
+                });
+
+                $("#instruction").text("Waiting for the other player ready.");
+
+                if (playerOneData.status && playerTwoData.status) {
+
+                    $("#instruction").attr("style","display: none;");
+
+                    for(var i=0; i < ((53 * 47) + 1) ; i++){
+
+                        if (maze[i].state == 0 || maze[i].state == "0") {
+                            ctx.drawImage(wall, maze[i].x * 15, maze[i].y * 15, 15, 15);
+                        }
+                        
+                        if (maze[i].state == 2 || maze[i].state == "2") {
+                            ctx.drawImage(treasure, maze[i].x * 15, maze[i].y * 15, 15, 15);
+                        }
+                    }
+        
+                    console.log(playerOneData.x);
+                    console.log(playerOneData.y);
+                    console.log(playerTwoData.x);
+                    console.log(playerTwoData.y);
+        
+                    //Put image of where player2 is
+                    ctx.drawImage(ninja, playerTwoData.x * 15, playerTwoData.y * 15, 15, 15);
+        
+                    //Put image of where player1 is
+                    ctx.drawImage(greenKnight, playerOneData.x * 15, playerOneData.y * 15, 15, 15);
+        
+                    if (maze[playerOneData.loc].state == 2) {
+                        $("#gameContainer").html(playerOneData.name + "wins");
+                    }
+        
+                    if (maze[playerTwoData.loc].state == 2) {
+                        $("#gameContainer").html(playerTwoData.name + "wins");
+                    }
                 }
-            }
-
-            console.log(playerOneData.x);
-            console.log(playerOneData.y);
-            console.log(playerTwoData.x);
-            console.log(playerTwoData.y);
-
-            //Put image of where player2 is
-            ctx.drawImage(ninja, playerTwoData.x * 15, playerTwoData.y * 15, 15, 15);
-
-            //Put image of where player1 is
-            ctx.drawImage(greenKnight, playerOneData.x * 15, playerOneData.y * 15, 15, 15);
-
-            if (maze[playerOneData.loc].state == 2) {
-                $("#gameContainer").html(playerOneData.name + "wins");
-            }
-
-            if (maze[playerTwoData.loc].state == 2) {
-                $("#gameContainer").html(playerTwoData.name + "wins");
-            }
+            })
         }
     });
 
@@ -503,7 +524,8 @@ $(document).ready(function(){
             x:      player.x,
             y:      player.y,
             loc:    player.loc,
-            moves:  player.moves
+            moves:  player.moves,
+            status: player.status
             });
 
         // On disconnect remove this user's player object
