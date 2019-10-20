@@ -488,7 +488,7 @@ $(document).ready(function(){
                         ctx.clearRect(maze[i].x * 15, maze[i].y * 15, 15, 15);
                     }
                     var winner = $("<h1 id='winner'>");
-                    winner.text(playerOneData.name + "wins");
+                    winner.text(playerOneData.name + " Wins!");
                     $(".col-sm-12").prepend(winner);   
                 }
     
@@ -497,7 +497,7 @@ $(document).ready(function(){
                         ctx.clearRect(maze[i].x * 15, maze[i].y * 15, 15, 15);
                     }
                     var winner = $("<h1 id='winner'>");
-                    winner.text(playerOneData.name + "wins");
+                    winner.text(playerOneData.name + " Wins!");
                     $(".col-sm-12").prepend(winner);
                 }
             }
