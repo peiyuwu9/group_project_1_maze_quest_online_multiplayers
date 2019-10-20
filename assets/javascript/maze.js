@@ -44,7 +44,7 @@ $(document).ready(function(){
     //1
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     //2
-        0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
+        0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,
     //3
         0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,
     //4
@@ -87,7 +87,7 @@ $(document).ready(function(){
     //23
         0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,
     //24
-        1,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,2,
+        1,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,2,
     //25
         0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,
     //26
@@ -445,8 +445,6 @@ $(document).ready(function(){
             console.log(playerOneExists);
             console.log(playerTwoExists);
 
-            $("#instruction").attr("style","display: block;");
-
             $("#ready").on("click", function(){
 
                 player.status = true;
@@ -457,41 +455,53 @@ $(document).ready(function(){
 
                 $("#instruction").text("Waiting for the other player ready.");
 
-                if (playerOneData.status && playerTwoData.status) {
+            });
 
-                    $("#instruction").attr("style","display: none;");
+            if (playerOneData.status && playerTwoData.status) {
 
-                    for(var i=0; i < ((53 * 47) + 1) ; i++){
+                $("#instruction").empty();
 
-                        if (maze[i].state == 0 || maze[i].state == "0") {
-                            ctx.drawImage(wall, maze[i].x * 15, maze[i].y * 15, 15, 15);
-                        }
-                        
-                        if (maze[i].state == 2 || maze[i].state == "2") {
-                            ctx.drawImage(treasure, maze[i].x * 15, maze[i].y * 15, 15, 15);
-                        }
+                for(var i=0; i < ((53 * 47) + 1) ; i++){
+
+                    if (maze[i].state == 0 || maze[i].state == "0") {
+                        ctx.drawImage(wall, maze[i].x * 15, maze[i].y * 15, 15, 15);
                     }
-        
-                    console.log(playerOneData.x);
-                    console.log(playerOneData.y);
-                    console.log(playerTwoData.x);
-                    console.log(playerTwoData.y);
-        
-                    //Put image of where player2 is
-                    ctx.drawImage(ninja, playerTwoData.x * 15, playerTwoData.y * 15, 15, 15);
-        
-                    //Put image of where player1 is
-                    ctx.drawImage(greenKnight, playerOneData.x * 15, playerOneData.y * 15, 15, 15);
-        
-                    if (maze[playerOneData.loc].state == 2) {
-                        $("#gameContainer").html(playerOneData.name + "wins");
-                    }
-        
-                    if (maze[playerTwoData.loc].state == 2) {
-                        $("#gameContainer").html(playerTwoData.name + "wins");
+                    
+                    if (maze[i].state == 2 || maze[i].state == "2") {
+                        ctx.drawImage(treasure, maze[i].x * 15, maze[i].y * 15, 15, 15);
                     }
                 }
-            })
+    
+                console.log(playerOneData.x);
+                console.log(playerOneData.y);
+                console.log(playerTwoData.x);
+                console.log(playerTwoData.y);
+    
+                //Put image of where player2 is
+                ctx.drawImage(ninja, playerTwoData.x * 15, playerTwoData.y * 15, 15, 15);
+    
+                //Put image of where player1 is
+                ctx.drawImage(greenKnight, playerOneData.x * 15, playerOneData.y * 15, 15, 15);
+    
+                if (maze[playerOneData.loc].state == 2) {
+                    for(var i=0; i < ((53 * 47) + 1) ; i++){
+                        ctx.clearRect(maze[i].x * 15, maze[i].y * 15, 15, 15);
+                    }
+                    var winner = $("<h1 id='winner'>");
+                    winner.text(playerOneData.name + "wins");
+                    $(".col-sm-12").prepend(winner);   
+                }
+    
+                if (maze[playerTwoData.loc].state == 2) {
+                    for(var i=0; i < ((53 * 47) + 1) ; i++){
+                        ctx.clearRect(maze[i].x * 15, maze[i].y * 15, 15, 15);
+                    }
+                    var winner = $("<h1 id='winner'>");
+                    winner.text(playerOneData.name + "wins");
+                    $(".col-sm-12").prepend(winner);
+                }
+            }
+            
         }
     });
 
